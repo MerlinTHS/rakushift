@@ -10,7 +10,7 @@ enum Event (
     vacation => 0b100,
 );
 
-constant $timesheetFile = "current_timesheet";
+constant $timesheet-file = "current_timesheet";
 
 #|(Add timesheet)
 multi MAIN(
@@ -28,7 +28,7 @@ multi MAIN(
 	"record",
 	"start"
 ) {
-	my $fh = open $timesheetFile, :w;
+	my $fh = open $timesheet-file, :w;
 	$fh.say("Recording");
 	$fh.close;
 
@@ -40,14 +40,14 @@ multi MAIN(
 	"record",
 	"stop"
 ) {
-	with readTime($timesheetFile) -> $startTime {
-		say "Timesheet start was $startTime";
+	with read-time($timesheet-file) -> $start-time {
+		say "Timesheet start was $start-time";
 	} else {
 		say "There is no timesheet to stop. \nPlease first start recording using: record start";
 	}
 }
 
-sub readTime(Str $file) returns Str {
+sub read-time(Str $file) returns Str {
 	fail "File does not exists" unless $file.IO.e;
 
 	slurp $file;
